@@ -154,6 +154,22 @@ accesible en `/var/www/<sitio>/htdocs`. Los helpers de Elementor asumen Elemento
 
 ---
 
+## Credenciales
+
+Si tu **staging** necesita basic-auth (HTTP) para la verificación del render, **deja
+`staging_basic_auth` (y `staging_curl_resolve`) vacíos en `meta.json`** y pásalos en tiempo de
+ejecución por variables de entorno — tienen prioridad sobre `meta.json` y nunca se commitean:
+
+```bash
+export WPKIT_STAGING_AUTH="usuario:contraseña"
+export WPKIT_STAGING_RESOLVE="staging.example.com:443:203.0.113.10"   # opcional
+```
+
+El `.gitignore` ya bloquea los archivos de secretos habituales (`.env`, `wp-config.php`,
+`*.key`, `*.pem`, dumps…). Nunca commitees credenciales dentro de un cambio versionado.
+
+---
+
 ## Estado y contribución
 
 `v0.1` — temprano y pragmático. Lo comparto **por si ayuda**: mejoremos entre todos los casos

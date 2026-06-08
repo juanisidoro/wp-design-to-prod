@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # lib/verify.sh <cambio> <sitio> — Smoke test del render:
 #   home responde 200 + el HTML contiene todos los 'verify_markers' del cambio.
-# En staging usa basic-auth/resolve del meta.json si estan definidos.
+# En staging, si necesita basic-auth/resolve, los toma de variables de entorno
+# (WPKIT_STAGING_AUTH / WPKIT_STAGING_RESOLVE) y, como fallback, de meta.json.
+# Recomendado: deja meta.json vacio y pasa las credenciales por entorno (no se commitean).
 set -uo pipefail
 . "$WPKIT_HOME/lib/common.sh"
 
@@ -11,8 +13,9 @@ TMP="/tmp/wpkit-verify-$SITE.html"
 AUTH=(); RESOLVE=()
 STAGING="$(meta "$CHANGE" '.environments.staging')"
 if [ "$SITE" = "$STAGING" ]; then
-  BA="$(meta "$CHANGE" '.staging_basic_auth')"
-  RS="$(meta "$CHANGE" '.staging_curl_resolve')"
+  # Prioridad: variable de entorno > meta.json (fallback)
+  BA="${WPKIT_STAGING_AUTH:-$(meta "$CHANGE" '.staging_basic_auth')}"
+  RS="${WPKIT_STAGING_RESOLVE:-$(meta "$CHANGE" '.staging_curl_resolve')}"
   [ -n "$BA" ] && AUTH=(-k -u "$BA")
   [ -n "$RS" ] && RESOLVE=(--resolve "$RS")
 fi

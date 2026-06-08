@@ -152,6 +152,22 @@ reachable at `/var/www/<site>/htdocs`. The Elementor helpers assume Elementor is
 
 ---
 
+## Credentials
+
+If your **staging** site needs HTTP basic-auth for the render check, **keep
+`staging_basic_auth` (and `staging_curl_resolve`) empty in `meta.json`** and pass them at runtime
+via environment variables — they take precedence over `meta.json` and are never committed:
+
+```bash
+export WPKIT_STAGING_AUTH="user:password"
+export WPKIT_STAGING_RESOLVE="staging.example.com:443:203.0.113.10"   # optional
+```
+
+The `.gitignore` already blocks common secret files (`.env`, `wp-config.php`, `*.key`, `*.pem`,
+dumps…). Never commit credentials inside a versioned change.
+
+---
+
 ## Status & contributing
 
 `v0.1` — early and pragmatic. I'm sharing it **in case it helps**: let's improve the use cases

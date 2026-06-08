@@ -7,9 +7,22 @@ Thumbs.db
 # never commit dumps or backups
 *.sql
 *.sql.gz
+*.sql.bz2
+*.sql.xz
 *.tar.gz
+*.dump
+*.bak
+*.backup
 backups/
 
-# never commit local credentials
-*.secret
+# never commit credentials / secrets
 .env
+.env.*
+!.env.example
+wp-config.php
+*.secret
+*.pem
+*.key
+*.p12
+*.pfx
+.wpkit.local
