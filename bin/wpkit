@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# wpkit — framework de cambios WordPress (staging <-> prod) con backups y auto-rollback.
+# Uso:
+#   wpkit new <cambio>
+#   wpkit apply <cambio> <sitio> [--dry-run] [--yes] [--force]
+#   wpkit rollback <cambio> <sitio>
+#   wpkit list
+#   wpkit help
+set -euo pipefail
+
+WPKIT_HOME="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+export WPKIT_HOME
+
+CMD="${1:-help}"; shift || true
+case "$CMD" in
+  new)              exec "$WPKIT_HOME/lib/new.sh" "$@" ;;
+  apply)            exec "$WPKIT_HOME/lib/apply.sh" "$@" ;;
+  rollback)         exec "$WPKIT_HOME/lib/rollback.sh" "$@" ;;
+  list)             exec "$WPKIT_HOME/lib/list.sh" "$@" ;;
+  help|-h|--help|"") cat "$WPKIT_HOME/USAGE.txt" ;;
+  *) echo "Comando desconocido: '$CMD'"; echo; cat "$WPKIT_HOME/USAGE.txt"; exit 1 ;;
+esac

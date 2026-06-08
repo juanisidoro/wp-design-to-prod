@@ -1,0 +1,14 @@
+{
+  "name": "__CHANGE__",
+  "description": "Describe el cambio en una linea",
+  "project": "miproyecto",
+  "environments": {
+    "staging": "staging.example.com",
+    "prod": "example.com"
+  },
+  "target_post": 0,
+  "touches": "que filas/opciones toca (para el changelog y el backup quirurgico)",
+  "verify_markers": [],
+  "staging_basic_auth": "",
+  "staging_curl_resolve": ""
+}

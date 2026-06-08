@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# never commit dumps or backups
+*.sql
+*.sql.gz
+*.tar.gz
+backups/
+
+# never commit local credentials
+*.secret
+.env

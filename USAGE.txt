@@ -1,0 +1,24 @@
+wpkit — cambios de WordPress (staging <-> produccion) con backups y auto-rollback
+
+COMANDOS
+  wpkit new <cambio>                  Crea la carpeta de un cambio nuevo (desde plantilla)
+  wpkit apply <cambio> <sitio>        Aplica el cambio a un sitio (backup + verifica + auto-rollback)
+       opciones:  --dry-run   muestra el plan sin ejecutar nada
+                  --yes       no pide la confirmacion de produccion
+                  --force     salta el aviso de "no probado en staging"
+  wpkit rollback <cambio> <sitio>     Deshace el cambio en ese sitio
+  wpkit list                          Lista los cambios y su estado (staging/prod)
+  wpkit help                          Esta ayuda
+
+FLUJO TIPICO
+  wpkit new footer
+  # editar changes/footer/{meta.json,apply.php,rollback.php,assets/}
+  wpkit apply footer staging.example.com     # probar en desarrollo (sin friccion)
+  wpkit apply footer example.com             # publicar en produccion (pide 'aplicar')
+
+SEGURIDAD
+  - Copia catastrofica (db+wp-content+wp-config) ANTES de tocar nada.
+  - apply.php idempotente; si falla -> rollback automatico.
+  - Verificacion del render; si falla -> rollback automatico.
+  - En produccion: pide confirmacion y avisa si no se probo en staging.
+  - El CHANGELOG se escribe en /var/www/<sitio>/updates/ (INDEPENDIENTE de wpkit).

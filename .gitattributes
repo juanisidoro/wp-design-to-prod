@@ -1,0 +1,6 @@
+# Normaliza finales de linea a LF (scripts bash/php deben ser LF para correr en Linux)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
