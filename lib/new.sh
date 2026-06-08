@@ -13,9 +13,11 @@ sed -i "s/__CHANGE__/$CHANGE/g" "$CDIR/meta.json"
 
 echo "✓ Change created: $CDIR"
 echo "  Edit these files:"
+echo "    - style.css      (CSS-only changes: edit this and use 'wpkit dev')"
 echo "    - meta.json     (description, target_post, verify_markers, environments)"
-echo "    - apply.php      (the recipe; use the helpers in lib/lib.php)"
+echo "    - apply.php      (structural changes; uses the helpers in lib/lib.php)"
 echo "    - rollback.php   (how to undo it)"
 echo "    - assets/        (change images, if any)"
 echo
-echo "  Then:  wpkit apply $CHANGE staging.example.com   (test on staging)"
+echo "  Fast loop:  wpkit dev $CHANGE staging.example.com   (edit style.css, re-run, repeat)"
+echo "  Publish:    wpkit apply $CHANGE example.com"

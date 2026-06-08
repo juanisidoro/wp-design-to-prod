@@ -2,6 +2,7 @@
 # wpkit — framework de cambios WordPress (staging <-> prod) con backups y auto-rollback.
 # Uso:
 #   wpkit new <cambio>
+#   wpkit dev <cambio> <sitio>      (bucle rapido en staging: aplica + flush, sin backup)
 #   wpkit apply <cambio> <sitio> [--dry-run] [--yes] [--force]
 #   wpkit rollback <cambio> <sitio>
 #   wpkit list
@@ -14,6 +15,7 @@ export WPKIT_HOME
 CMD="${1:-help}"; shift || true
 case "$CMD" in
   new)              exec "$WPKIT_HOME/lib/new.sh" "$@" ;;
+  dev)              exec "$WPKIT_HOME/lib/dev.sh" "$@" ;;
   apply)            exec "$WPKIT_HOME/lib/apply.sh" "$@" ;;
   rollback)         exec "$WPKIT_HOME/lib/rollback.sh" "$@" ;;
   list)             exec "$WPKIT_HOME/lib/list.sh" "$@" ;;

@@ -74,6 +74,7 @@ Solo viaja el diseño. Los datos vivos **nunca** entran en un cambio.
 
 ```bash
 wpkit new <cambio>                 # crea la carpeta de un cambio nuevo (desde plantilla)
+wpkit dev <cambio> <sitio>         # bucle rápido en staging: aplica + flush, SIN backup (itera CSS)
 wpkit apply <cambio> <sitio>       # copia de seguridad + aplica + verifica + auto-rollback
        --dry-run                   # muestra el plan, no ejecuta nada
 wpkit rollback <cambio> <sitio>    # deshace el cambio en ese sitio
@@ -86,9 +87,15 @@ confirmación y te avisa si no lo probaste antes en staging.
 
 ```bash
 wpkit new footer
-wpkit apply footer staging.example.com   # probar en desarrollo
+wpkit dev footer staging.example.com     # bucle rápido: editar -> dev -> ver, las veces que haga falta
 wpkit apply footer example.com           # publicar en producción (pide confirmación)
 ```
+
+### Bucle rápido para CSS
+
+Para retoques **solo-CSS** no hace falta tocar PHP: pon tu CSS en el `style.css` del cambio e
+itera en staging con `wpkit dev` (aplica + flush, sin backup). `dev` funciona **solo en
+staging**; a producción siempre se va con `wpkit apply` (backups + verificación).
 
 ---
 
@@ -110,6 +117,7 @@ wp-design-to-prod/
 └── changes/               # TUS cambios (uno por carpeta) — lo único que escribes por cambio
     └── <cambio>/
         ├── meta.json      # ficha: descripción, entornos (staging/prod), post objetivo, marcadores
+        ├── style.css      # cambios solo-CSS (se aplica como bloque marcado; ideal con `wpkit dev`)
         ├── apply.php      # la receta (idempotente; usa los helpers de lib/lib.php)
         ├── rollback.php   # cómo deshacerlo (el inverso exacto)
         └── assets/        # imágenes del cambio, si las hay

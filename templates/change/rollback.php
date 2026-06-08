@@ -1,13 +1,14 @@
 <?php
 /**
- * rollback.php — PLANTILLA. Debe deshacer EXACTAMENTE lo que hace apply.php.
+ * rollback.php — PLANTILLA. Deshace EXACTAMENTE lo que hace apply.php.
  * Idempotente y tolerante (si ya no esta, no pasa nada).
  */
 require_once dirname(__DIR__, 2) . '/lib/lib.php';
 
-/* === Ejemplos (espejo de apply.php) ===
+$CHANGE = basename(__DIR__);
+css_block_remove("/* === wpkit:$CHANGE === */");
 
-// css_block_remove('/* === MI CAMBIO === *\/');
+/* === Inverso del resto de la receta ===
 
 // Borrar attachment creado:
 // $ex = get_posts(['post_type'=>'attachment','title'=>'Mi Imagen','fields'=>'ids']);

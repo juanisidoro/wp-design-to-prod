@@ -51,6 +51,17 @@ if (!function_exists('css_block_remove')) {
   }
 }
 
+if (!function_exists('css_block_set_from_file')) {
+  // Escribe el contenido de un archivo CSS como bloque marcado.
+  // Si el archivo no existe o esta vacio, elimina el bloque (idempotente).
+  function css_block_set_from_file($marker, $file) {
+    if (!file_exists($file)) { css_block_remove($marker); return; }
+    $body = trim(file_get_contents($file));
+    if ($body === '') { css_block_remove($marker); return; }
+    css_block_set($marker, $body);
+  }
+}
+
 if (!function_exists('image_register_from')) {
   // Copia un archivo a uploads/<año>/<mes>/ y lo registra como attachment (idempotente por titulo).
   function image_register_from($file, $title) {

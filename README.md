@@ -73,6 +73,7 @@ Only the design travels. Live data **never** enters a change.
 
 ```bash
 wpkit new <change>                 # create a new change folder (from the template)
+wpkit dev <change> <site>          # fast staging loop: apply + flush, NO backup (iterate CSS)
 wpkit apply <change> <site>        # backup + apply + verify + auto-rollback
        --dry-run                   # print the plan, execute nothing
 wpkit rollback <change> <site>     # undo the change on that site
@@ -85,9 +86,15 @@ for confirmation and warns you if you didn't test it on staging first.
 
 ```bash
 wpkit new footer
-wpkit apply footer staging.example.com   # test on staging
+wpkit dev footer staging.example.com     # fast loop: edit -> dev -> see, repeat
 wpkit apply footer example.com           # publish to production (asks for confirmation)
 ```
+
+### Fast loop for CSS
+
+For CSS-only tweaks you don't need to touch PHP: put your CSS in the change's `style.css` and
+iterate on staging with `wpkit dev` (apply + flush, no backup). `dev` runs **on staging only**;
+production always goes through `wpkit apply` (backups + verification).
 
 ---
 
@@ -109,6 +116,7 @@ wp-design-to-prod/
 └── changes/               # YOUR changes (one folder each) — the only thing you write per change
     └── <change>/
         ├── meta.json      # spec: description, environments (staging/prod), target post, markers
+        ├── style.css      # CSS-only changes (applied as a marked block; great with `wpkit dev`)
         ├── apply.php      # the recipe (idempotent; uses the helpers in lib/lib.php)
         ├── rollback.php   # how to undo it (the exact inverse)
         └── assets/        # change images, if any
